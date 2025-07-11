@@ -14,6 +14,116 @@
 
     <link rel="stylesheet" href="style.css" />
     <script defer src="./script.js"></script>
+
+    <script
+      src="https://kit.fontawesome.com/ebfc0337fb.js"
+      crossorigin="anonymous"></script>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <div class="container">
+        <h1>World Explorer</h1>
+
+        <div class="dark-mode-toggle">
+          <i class="fa-solid fa-moon"></i>
+          <!-- sun: <i class="fa-solid fa-sun"></i> -->
+          <h2>Dark Mode</h2>
+          <!-- Light Mode -->
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="list-view">
+        <div class="container">
+          <div class="controls-container">
+            <!-- search bar -->
+            <form action="/search" method="get">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="search"
+                class="search-input"
+                placeholder="Search for a country" />
+            </form>
+
+            <!-- filter region -->
+            <div class="dropdown">
+              <div class="select">
+                <span>Filter by Region</span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <ul class="menu">
+                <li>Africa</li>
+                <li>America</li>
+                <li>Asia</li>
+                <li>Europe</li>
+                <li>Oceania</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-list">
+            <a href="#">
+              <article class="card">
+                <img src="#" alt="Germany" />
+
+                <div class="card-description">
+                  <h2>Germany</h2>
+
+                  <div class="additional-info">
+                    <p>Population: 81,770,900</p>
+                    <p>Region: Europe</p>
+                    <p>Capital: Berlin</p>
+                  </div>
+                </div>
+              </article>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="detail-view">
+        <div class="container">
+          <button id="back-button">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+          </button>
+
+          <div class="country">
+            <img class="country-flag" src="#" alt="Germany flag" />
+
+            <div class="country-description">
+              <h2 class="country-name">Belgium</h2>
+
+              <div class="country-info">
+                <div class="main-info">
+                  <p>Native Name: Belgie</p>
+                  <p>Population: 11,319,511</p>
+                  <p>Region: Europe</p>
+                  <p>Sub Region: Western Europe</p>
+                  <p>Capital: Brussels</p>
+                </div>
+
+                <div class="second-info">
+                  <p>Top Level Domain: .be</p>
+                  <p>Currencied: Euro</p>
+                  <p>Languages: Dutch, French, German</p>
+                </div>
+              </div>
+
+              <div class="border-countries">
+                <h3>Border Countries:</h3>
+
+                <div class="list">
+                  <a href="#">France</a>
+                  <a href="#">Germany</a>
+                  <a href="#">Netherlands</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>
