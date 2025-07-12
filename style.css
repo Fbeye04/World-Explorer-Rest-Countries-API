@@ -1,12 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 
 :root {
-  --blue-900: hsl(209, 23%, 22%);
-  --blue-950: hsl(207, 26%, 17%);
-  --grey-950: hsl(200, 15%, 8%);
-  --grey-400: hsl(0, 0%, 50%);
-  --grey-50: hsl(0, 0%, 99%);
-  --white: hsl(0, 100%, 100%);
+  /* Light Mode Colors (default) */
+  --bg-color: hsl(0, 0%, 99%); /* Grey 50 */
+  --element-color: hsl(0, 100%, 100%); /* White */
+  --text-color: hsl(200, 15%, 8%); /* Grey 950 */
+  --input-color: hsl(0, 0%, 50%); /* Grey 400 */
+}
+
+/* 2. DARK MODE VARIABLES */
+[data-theme="dark"] {
+  --bg-color: hsl(207, 26%, 17%); /* Blue 950 */
+  --element-color: hsl(209, 23%, 22%); /* Blue 900 */
+  --text-color: hsl(0, 100%, 100%); /* White */
+  --input-color: hsl(0, 0%, 50%); /* Grey 400 */
 }
 
 * {
@@ -18,4 +25,301 @@
 body {
   font-family: "Nunito Sans", sans-serif;
   min-height: 100vh;
+  color: var(--text-color);
+}
+
+header {
+  background-color: var(--element-color);
+  box-shadow: 0px 1.95px 2.6px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+.dark-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.dark-mode-toggle i {
+  font-size: 1.3rem;
+}
+
+.dark-mode-toggle p {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+main {
+  background-color: var(--bg-color);
+}
+
+.list-view {
+  display: none;
+  padding-top: 2rem;
+}
+
+.controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 0 1.5rem;
+}
+
+.controls-container form {
+  background-color: var(--element-color);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  border-radius: 5px;
+}
+
+.controls-container form i {
+  color: var(--input-color);
+  width: 1.5rem; /* fixed width for icon */
+  flex-shrink: 0;
+}
+
+.controls-container form input {
+  margin-left: 1rem;
+  outline: none;
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  font-size: 1rem;
+  color: var(--input-color);
+}
+
+.dropdown {
+  position: relative;
+}
+
+.select {
+  background-color: var(--element-color);
+  padding: 1rem 1.5rem;
+  margin-top: 2.5rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border-radius: 5px;
+}
+
+.select span {
+  font-size: 1rem;
+}
+
+.menu {
+  background-color: var(--element-color);
+  list-style: none;
+  padding: 1rem 1.5rem;
+  margin-top: 0.5rem;
+  z-index: 3;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  display: none;
+  position: absolute;
+  width: 100%;
+}
+
+.card-list {
+  padding: 0 3.5rem;
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  z-index: 1;
+}
+
+a {
+  text-decoration: none;
+}
+
+.card {
+  background-color: var(--element-color);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.card img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+}
+
+.card-description {
+  padding: 1rem 1.5rem 2rem 1.5rem;
+  color: var(--text-color);
+}
+
+.additional-info {
+  margin-top: 1rem;
+}
+
+.detail-view {
+  padding: 3rem 1.5rem;
+}
+
+.back-button {
+  border: none;
+  background-color: var(--element-color);
+  padding: 1rem 1.5rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.country {
+  display: flex;
+  flex-direction: column;
+}
+
+.country-flag {
+  width: 100%;
+  max-width: 500px;
+  object-fit: cover;
+  margin: 2rem auto;
+}
+
+.country-name {
+  font-weight: 800;
+}
+
+.country-info {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+ul {
+  list-style: none;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.border-countries {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.list a {
+  background-color: var(--element-color);
+  color: var(--text-color);
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .card-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .detail-view {
+    padding: 3rem;
+  }
+
+  .country-info {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .border-countries {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .list {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 85%;
+    margin: 0 auto;
+  }
+
+  .controls-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .controls-container form {
+    width: 50%;
+  }
+
+  .select {
+    margin-top: 0;
+  }
+
+  .card-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .detail-view {
+    padding: 3rem 0;
+  }
+
+  .country {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 4rem;
+    width: 100%;
+  }
+
+  .country-flag {
+    margin: 0;
+    max-width: 45%;
+    flex-shrink: 0;
+  }
+
+  .country-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 50%;
+    flex-grow: 1;
+  }
+
+  .list {
+    flex-wrap: nowrap;
+  }
 }
