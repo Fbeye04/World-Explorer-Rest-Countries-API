@@ -65,7 +65,6 @@ main {
 }
 
 .list-view {
-  display: none;
   padding-top: 2rem;
 }
 
@@ -172,6 +171,7 @@ a {
 }
 
 .detail-view {
+  display: none;
   padding: 3rem 1.5rem;
 }
 
