@@ -65,7 +65,7 @@ main {
 }
 
 .list-view {
-  padding-top: 2rem;
+  padding: 2rem 0;
 }
 
 .controls-container {
@@ -243,7 +243,7 @@ ul {
 
 @media (min-width: 768px) {
   .container {
-    width: 90%;
+    width: 95%;
     margin: 0 auto;
   }
 
@@ -273,7 +273,7 @@ ul {
 
 @media (min-width: 1024px) {
   .container {
-    width: 85%;
+    width: 90%;
     margin: 0 auto;
   }
 
@@ -291,7 +291,8 @@ ul {
   }
 
   .card-list {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0 3rem;
   }
 
   .detail-view {
