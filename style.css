@@ -86,7 +86,7 @@ main {
 }
 
 .controls-container form i {
-  color: var(--input-color);
+  color: var(--text-color);
   width: 1.5rem; /* fixed width for icon */
   flex-shrink: 0;
 }
@@ -99,11 +99,17 @@ main {
   box-sizing: border-box;
   border: none;
   font-size: 1rem;
-  color: var(--input-color);
+  color: var(--text-color);
+  background-color: transparent;
+}
+
+input::placeholder {
+  color: var(--text-color);
 }
 
 .dropdown {
   position: relative;
+  cursor: pointer;
 }
 
 .select {
@@ -128,12 +134,15 @@ main {
   margin-top: 0.5rem;
   z-index: 3;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  display: flex;
   flex-direction: column;
   gap: 0.5rem;
   display: none;
   position: absolute;
   width: 100%;
+}
+
+.menu.menu-open {
+  display: flex;
 }
 
 .card-list {
@@ -184,6 +193,7 @@ a {
   align-items: center;
   gap: 1rem;
   cursor: pointer;
+  color: var(--text-color);
 }
 
 .country {
@@ -239,6 +249,23 @@ ul {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   cursor: pointer;
+}
+
+.load-more-container {
+  width: 100%;
+}
+
+#load-more-button {
+  border: none;
+  background-color: var(--element-color);
+  padding: 1rem 1.5rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text-color);
+  margin: 0 auto;
+  margin-top: 2rem;
 }
 
 @media (min-width: 768px) {

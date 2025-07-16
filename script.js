@@ -2,13 +2,91 @@ const cardListContainer = document.getElementById("card-list");
 const listView = document.querySelector(".list-view");
 const detailView = document.querySelector(".detail-view");
 const backButton = document.getElementById("back-button");
+const searchInput = document.getElementById("search-input");
+const dropdownSelect = document.querySelector(".select");
+const dropdownMenu = document.querySelector(".menu");
+const darkModeToggle = document.querySelector(".dark-mode-toggle");
+const htmlElement = document.documentElement;
+const loadMoreButton = document.getElementById("load-more-button");
 
 let allCountriesData = [];
+let itemsToShow = 8;
+let itemsLoaded = 0;
 
-function displayCountries(countries) {
+function loadMoreCountries() {
+  const nextItems = allCountriesData.slice(
+    itemsLoaded,
+    itemsLoaded + itemsToShow
+  );
+
+  nextItems.forEach((country) => {
+    const countryCardHTML = `
+            <a href="#" class="card-link" data-country-code="${country.cca3}">
+              <article class="card">
+                <img src="${country.flags.svg}" alt="${country.name.common}" />
+
+                <div class="card-description">
+                  <h2>${country.name.common}</h2>
+
+                  <ul class="additional-info">
+                    <li><strong>Population:</strong> ${country.population.toLocaleString(
+                      "en-US"
+                    )}</li>
+                    <li><strong>Region:</strong> ${country.region}</li>
+                    <li><strong>Capital:</strong> ${country.capital}</li>
+                  </ul>
+                </div>
+              </article>
+            </a>
+    `;
+
+    cardListContainer.insertAdjacentHTML("beforeend", countryCardHTML);
+  });
+
+  itemsLoaded += itemsToShow;
+
+  if (itemsLoaded >= allCountriesData.length) {
+    loadMoreButton.style.display = "none";
+  }
+}
+
+function displayFilteredResults(filteredData) {
+  const itemsToDisplay = filteredData.slice(0, itemsToShow);
+
+  itemsToDisplay.forEach((country) => {
+    const countryCardHTML = `
+            <a href="#" class="card-link" data-country-code="${country.cca3}">
+              <article class="card">
+                <img src="${country.flags.svg}" alt="${country.name.common}" />
+
+                <div class="card-description">
+                  <h2>${country.name.common}</h2>
+
+                  <ul class="additional-info">
+                    <li><strong>Population:</strong> ${country.population.toLocaleString(
+                      "en-US"
+                    )}</li>
+                    <li><strong>Region:</strong> ${country.region}</li>
+                    <li><strong>Capital:</strong> ${country.capital}</li>
+                  </ul>
+                </div>
+              </article>
+            </a>
+    `;
+    cardListContainer.insertAdjacentHTML("beforeend", countryCardHTML);
+  });
+
+  itemsLoaded = itemsToDisplay.length;
+
+  if (filteredData.length <= itemsToShow) {
+    loadMoreButton.style.display = "none";
+  }
+}
+
+function displayAllCards(countriesArray) {
   cardListContainer.innerHTML = "";
 
-  countries.slice(0, 8).forEach((country) => {
+  countriesArray.forEach((country) => {
     const countryCardHTML = `
             <a href="#" class="card-link" data-country-code="${country.cca3}">
               <article class="card">
@@ -119,6 +197,40 @@ function displayCountryDetails(country) {
   }
 }
 
+function switchTheme() {
+  const themeText = darkModeToggle.querySelector("p");
+  const themeIcon = darkModeToggle.querySelector("i");
+
+  const newTheme =
+    htmlElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+
+  htmlElement.setAttribute("data-theme", newTheme);
+  localStorage.setItem("theme", newTheme);
+
+  const isDark = newTheme === "dark";
+
+  themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+  themeIcon.className = isDark ? "fa-regular fa-sun" : "fa-regular fa-moon";
+}
+
+function loadTheme() {
+  const themeText = darkModeToggle.querySelector("p");
+  const themeIcon = darkModeToggle.querySelector("i");
+
+  const initialTheme =
+    localStorage.getItem("theme") ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light");
+
+  htmlElement.setAttribute("data-theme", initialTheme);
+
+  const isDark = initialTheme === "dark";
+
+  themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+  themeIcon.className = isDark ? "fa-regular fa-sun" : "fa-regular fa-moon";
+}
+
 async function getAllCountries() {
   try {
     const response = await fetch(
@@ -129,7 +241,8 @@ async function getAllCountries() {
     }
     const countries = await response.json();
     allCountriesData = countries;
-    displayCountries(countries);
+
+    loadMoreCountries();
   } catch (error) {
     console.error("failed to retrieve data:", error);
   }
@@ -151,6 +264,8 @@ async function getCountryDetails(code) {
   }
 }
 
+loadMoreButton.addEventListener("click", loadMoreCountries);
+
 document.addEventListener("DOMContentLoaded", getAllCountries);
 
 cardListContainer.addEventListener("click", (e) => {
@@ -167,3 +282,55 @@ backButton.addEventListener("click", () => {
   detailView.style.display = "none";
   listView.style.display = "block";
 });
+
+searchInput.addEventListener("input", (e) => {
+  // ambil nilai inputan lalu ubah pastikan nilai tersebut dalam bentuk lowercase
+  const searchQuery = e.target.value.toLowerCase();
+  // filter data countries berdasarkan search query
+  const filteredCountries = allCountriesData.filter((country) => {
+    // kembalikan nilai yang sudah di filter
+    return country.name.common.toLowerCase().includes(searchQuery);
+  });
+
+  cardListContainer.innerHTML = "";
+  itemsLoaded = 0;
+  loadMoreButton.style.display = "block";
+
+  displayFilteredResults(filteredCountries);
+});
+
+// event listener untuk memastikan dropdown select buka dan tutup saat di klik
+dropdownSelect.addEventListener("click", () => {
+  dropdownMenu.classList.toggle("menu-open");
+});
+
+dropdownMenu.addEventListener("click", (e) => {
+  if (e.target.matches("li")) {
+    const selectedRegion = e.target.textContent;
+
+    // update teks pada tombol dropdown
+    dropdownSelect.querySelector("span").textContent = selectedRegion;
+
+    // tutup menu setelah dipilih
+    dropdownMenu.classList.remove("menu-open");
+
+    // Jika all regions dipilih, tampilkan semua negara
+    if (selectedRegion === "All Regions") {
+      cardListContainer.innerHTML = "";
+      itemsLoaded = 0;
+      loadMoreButton.style.display = "block";
+      loadMoreCountries();
+    } else {
+      loadMoreButton.style.display = "none";
+
+      const filteredCountries = allCountriesData.filter((country) => {
+        return country.region === selectedRegion;
+      });
+
+      displayAllCards(filteredCountries);
+    }
+  }
+});
+
+darkModeToggle.addEventListener("click", switchTheme);
+document.addEventListener("DOMContentLoaded", loadTheme);
