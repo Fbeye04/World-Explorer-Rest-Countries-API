@@ -1,22 +1,16 @@
 # Frontend Mentor - REST Countries API with color theme switcher solution
 
-This is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
+This is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
 ## Table of contents
 
 - [Overview](#overview)
   - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
-
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
@@ -29,24 +23,12 @@ Users should be able to:
 - Filter countries by region
 - Click on a country to see more detailed information on a separate page
 - Click through to the border countries on the detail page
-- Toggle the color scheme between light and dark mode *(optional)*
-
-### Screenshot
-
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+- Toggle the color scheme between light and dark mode _(optional)_
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [Repository](https://github.com/Fbeye04/World-Explorer-Rest-Countries-API)
+- Live Site URL: [Live site](https://fbeye04.github.io/World-Explorer-Rest-Countries-API/)
 
 ## My process
 
@@ -57,59 +39,77 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - Flexbox
 - CSS Grid
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+- Vanilla JavaScript - For all interactive logic
+- REST Countries API - For data
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+This project was a fantastic learning journey, taking me from zero to understanding how dynamic web applications work. Some of my major learnings include:
 
-To see how you can add code snippets, see below:
+#### Fetching Data with an API (async/await)
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
+I learned how to communicate with an external API for the first time. I started with .then() chaining and later refactored to the more modern and readable async/await syntax. I also learned the importance of try...catch for robust error handling.
+
+// Storing all country data to be used across the application
+let allCountriesData = [];
+
+async function fetchAllCountries() {
+try {
+const response = await fetch(
+"https://restcountries.com/v3.1/all?fields=flags,name,population,region,capital,cca3"
+);
+if (!response.ok) {
+throw new Error(`HTTP error! status: ${response.status}`);
 }
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
+const countries = await response.json();
+allCountriesData = countries; // Save data to the global "dictionary"
+loadMoreCountries(); // Display the first batch
+} catch (error) {
+console.error("failed to retrieve data:", error);
 }
-```
+}
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+#### Robust and Responsive Grid Layouts
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+1. I faced a significant challenge in making the country cards have a uniform height despite their varying content. The solution was a combination of modern CSS techniques:
+2. CSS Grid with grid-auto-rows to force each row to have a consistent height.
+3. Flexbox inside each card (display: flex, flex-direction: column) to manage the internal content.
+4. aspect-ratio on the images to ensure all flags have consistent dimensions.
+5. flex-grow: 1 and margin-top: auto on the description area to dynamically push the info block to the bottom, creating perfect alignment.
 
-### Continued development
+.card-list {
+display: grid;
+gap: 3rem;
+/_ KEY #1: Force each row to have the same height _/
+grid-auto-rows: 380px;
+}
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+.card {
+display: flex;
+flex-direction: column;
+height: 100%; /_ KEY #2: Force the card to fill the grid cell _/
+}
 
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
+.card-description {
+display: flex;
+flex-direction: column;
+flex-grow: 1; /_ KEY #3: Force this area to fill remaining space _/
+}
 
-### Useful resources
+.additional-info {
+margin-top: auto; /_ KEY #4: Push this block to the very bottom _/
+}
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
+#### Dark Mode Implementation & localStorage
 
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+I learned how to build a dark mode feature from scratch. This involved using CSS Custom Properties for theming, toggling a data-theme attribute on the <html> element, and most importantly, using localStorage to persist the user's choice across sessions.
+
+#### Performance Optimization with a "Load More" Button
+
+Displaying 250+ countries at once caused slow performance. I implemented a "Load More" button that dynamically loads the next batch of items when requested, providing a much better user experience than loading everything at once.
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
+- LinkedIn - [Muhammad Fachrezi Barus](https://www.linkedin.com/in/muhammad-fachrezi-barus/)
+- Frontend Mentor - [@Fbeye04](https://www.frontendmentor.io/profile/Fbeye04)
+- GitHub - [@Fbeye04](https://github.com/Fbeye04)
