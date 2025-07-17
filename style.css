@@ -26,6 +26,63 @@ body {
   font-family: "Nunito Sans", sans-serif;
   min-height: 100vh;
   color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+body,
+header,
+.card,
+button,
+a,
+input,
+.select,
+.menu {
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.back-button,
+#load-more-button,
+.select,
+.list a {
+  transition: transform;
+}
+
+.back-button:hover,
+#load-more-button:hover,
+.select:hover,
+.list a:hover {
+  transform: translateY(-2px);
+}
+
+.back-button:active,
+#load-more-button:active,
+.select:active,
+.list a:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 header {
@@ -41,14 +98,11 @@ header {
   padding: 1.5rem 1rem;
 }
 
-h1 {
-  font-size: 1.5rem;
-}
-
 .dark-mode-toggle {
   display: flex;
   align-items: center;
   gap: 0.7rem;
+  cursor: pointer;
 }
 
 .dark-mode-toggle i {
@@ -62,6 +116,9 @@ h1 {
 
 main {
   background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .list-view {
@@ -91,7 +148,7 @@ main {
   flex-shrink: 0;
 }
 
-.controls-container form input {
+.search-input {
   margin-left: 1rem;
   outline: none;
   flex-grow: 1;
@@ -103,7 +160,7 @@ main {
   background-color: transparent;
 }
 
-input::placeholder {
+.search-input::placeholder {
   color: var(--text-color);
 }
 
@@ -154,20 +211,30 @@ input::placeholder {
   z-index: 1;
 }
 
-a {
-  text-decoration: none;
+.card-link {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background-color: var(--element-color);
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
 .card img {
   width: 100%;
   object-fit: cover;
   border-radius: 5px 5px 0 0;
+  aspect-ratio: 16 / 10;
 }
 
 .card-description {
@@ -182,6 +249,7 @@ a {
 .detail-view {
   display: none;
   padding: 3rem 1.5rem;
+  flex-grow: 1;
 }
 
 .back-button {
@@ -217,10 +285,6 @@ a {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-}
-
-ul {
-  list-style: none;
 }
 
 .info {
@@ -318,7 +382,7 @@ ul {
   }
 
   .card-list {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     padding: 0 3rem;
   }
 
@@ -349,5 +413,11 @@ ul {
 
   .list {
     flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 1440px) {
+  .card-list {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
